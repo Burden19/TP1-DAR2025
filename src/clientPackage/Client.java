@@ -21,6 +21,7 @@ public class Client {
         } catch (IOException e) {
             System.out.println("Erreur client : " + e.getMessage());
             e.printStackTrace();
+
         }
     }
 }
