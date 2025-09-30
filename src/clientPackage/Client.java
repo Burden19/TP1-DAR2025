@@ -3,7 +3,7 @@ import java.io.*;
 import java.net.*;
 public class Client {
     public static void main(String[] args) {
-        final String HOST = "localhost"; // à remplacer par l'adresse IP plus tard
+        final String HOST = "127.0.0.1";
         final int PORT = 1234;
 
         try {
@@ -11,7 +11,7 @@ public class Client {
             System.out.println("Je suis un client pas encore connecté...");
 
             //Deuxième étape
-            Socket socket = new Socket("127.0.0.1", 1234);
+            Socket socket = new Socket(HOST,PORT );
             System.out.println("Je suis un client connecté");
 
             //Dernière étape
