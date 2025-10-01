@@ -11,6 +11,16 @@ public class Server {
             //Deuxième étape
             Socket clientSocket = serverSocket.accept();
             System.out.println("Un client est connecté");
+            //
+            InputStream is = clientSocket.getInputStream();
+            OutputStream os = clientSocket.getOutputStream();
+            int x=is.read();
+            int nb = x*7;
+            os.write(nb);
+
+
+
+
 
             //Dernière étape
             clientSocket.close();

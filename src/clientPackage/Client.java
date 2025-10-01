@@ -1,6 +1,8 @@
 package clientPackage;
 import java.io.*;
 import java.net.*;
+import java.util.Scanner;
+
 public class Client {
     public static void main(String[] args) {
         final String HOST = "127.0.0.1";
@@ -11,11 +13,25 @@ public class Client {
             System.out.println("Je suis un client pas encore connecté...");
 
             //Deuxième étape
-            Socket socket = new Socket(HOST,PORT );
+            Socket clientSocket = new Socket(HOST,PORT );
             System.out.println("Je suis un client connecté");
+            //
+            OutputStream os = clientSocket.getOutputStream();
+            InputStream is = clientSocket.getInputStream();
+            Scanner scanner = new Scanner(System.in);
+            //
+            System.out.print("Entrez un entier x : ");
+            int x = scanner.nextInt();
+            //
+            os.write(x);
+            int nb= is.read();
+            System.out.println("Résultat reçu du serveur : " + nb);
+
+
+
 
             //Dernière étape
-            socket.close();
+            clientSocket.close();
             System.out.println("Connexion terminée");
 
         } catch (IOException e) {
