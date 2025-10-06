@@ -1,3 +1,5 @@
+// Activite 1-1
+
 ////apres la creation du server :
 
 //Resultat du serveur :
@@ -15,3 +17,11 @@ Connexion terminée
 Je suis un client pas encore connecté...
 Je suis un client connecté
 Connexion terminée
+
+//Activite 1-2
+En utilisant la methode InputStream et OutputStream le programme ne fonctionne pas correctement avec
+les nombres negative et avec zero
+donc on utilise la methode DataInputStream et DataOutputStream pour manipuler les entiers negatives
+////partie 2 : implementation d'un saisie successive des entiers sans la fermeture du connexion
+on utilise un boucle while:
+// resultat :
