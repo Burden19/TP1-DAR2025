@@ -21,10 +21,8 @@ public class Server {
                     System.out.println("Client a envoyé 0 — fin de communication.");
                     break;
                 }
-
                 System.out.println("Reçu du client: " + x);
-
-                int nb = x * 5;
+                int nb = x * 7;
                 dos.writeInt(nb); // envoie du résultat
                 System.out.println("Résultat envoyé: " + nb);
             }
@@ -38,7 +36,6 @@ public class Server {
 
         } catch (IOException e) {
             System.out.println("Erreur serveur : " + e.getMessage());
-            e.printStackTrace();
         }
     }
 }
