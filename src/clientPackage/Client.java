@@ -16,27 +16,32 @@ public class Client {
             Socket clientSocket = new Socket(HOST,PORT );
             System.out.println("Je suis un client connecté");
             //
-            OutputStream os = clientSocket.getOutputStream();
-            InputStream is = clientSocket.getInputStream();
+            DataOutputStream dos = new DataOutputStream(clientSocket.getOutputStream());
+            DataInputStream dis = new DataInputStream(clientSocket.getInputStream());
             Scanner scanner = new Scanner(System.in);
             //
-            System.out.print("Entrez un entier x : ");
-            int x = scanner.nextInt();
-            //
-            os.write(x);
-            int nb= is.read();
-            System.out.println("Résultat reçu du serveur : " + nb);
+            while (true) {
+                System.out.print("Entrez un entier (tapez 0 pour quitter) : ");
+                int x = scanner.nextInt();
+                dos.writeInt(x);
+                if (x == 0) {
+                    System.out.println("Fermeture de la connexion...");
+                    break;
+                }
 
-
-
-
+                int nb = dis.readInt(); // lit le résultat
+                System.out.println("Résultat reçu du serveur : " + nb);
+            }
             //Dernière étape
+            scanner.close();
+            dis.close();
+            dos.close();
             clientSocket.close();
             System.out.println("Connexion terminée");
 
         } catch (IOException e) {
             System.out.println("Erreur client : " + e.getMessage());
-            e.printStackTrace();
+
 
         }
     }

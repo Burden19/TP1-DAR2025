@@ -12,17 +12,26 @@ public class Server {
             Socket clientSocket = serverSocket.accept();
             System.out.println("Un client est connecté");
             //
-            InputStream is = clientSocket.getInputStream();
-            OutputStream os = clientSocket.getOutputStream();
-            int x=is.read();
-            int nb = x*7;
-            os.write(nb);
+            DataOutputStream dos = new DataOutputStream(clientSocket.getOutputStream());
+            DataInputStream dis = new DataInputStream(clientSocket.getInputStream());
+            //
+            while (true) {
+                int x = dis.readInt();
+                if (x == 0) {
+                    System.out.println("Client a envoyé 0 — fin de communication.");
+                    break;
+                }
 
+                System.out.println("Reçu du client: " + x);
 
-
-
+                int nb = x * 5;
+                dos.writeInt(nb); // envoie du résultat
+                System.out.println("Résultat envoyé: " + nb);
+            }
 
             //Dernière étape
+            dis.close();
+            dos.close();
             clientSocket.close();
             serverSocket.close();
             System.out.println("Connexion terminée");
