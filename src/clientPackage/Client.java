@@ -25,7 +25,7 @@ public class Client {
                 int x = scanner.nextInt();
                 dos.writeInt(x);
                 if (x == 0) {
-                    System.out.println("Fermeture de la connexion...");
+                    System.out.println("Fermeture de la connexion..");
                     break;
                 }
 
