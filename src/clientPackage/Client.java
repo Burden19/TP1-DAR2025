@@ -9,40 +9,38 @@ public class Client {
         final int PORT = 1234;
 
         try {
-            //Première étape
             System.out.println("Je suis un client pas encore connecté...");
 
-            //Deuxième étape
-            Socket clientSocket = new Socket(HOST,PORT );
+            Socket clientSocket = new Socket(HOST, PORT);
             System.out.println("Je suis un client connecté");
-            //
-            DataOutputStream dos = new DataOutputStream(clientSocket.getOutputStream());
-            DataInputStream dis = new DataInputStream(clientSocket.getInputStream());
-            Scanner scanner = new Scanner(System.in);
-            //
-            while (true) {
-                System.out.print("Entrez un entier (tapez 0 pour quitter) : ");
-                int x = scanner.nextInt();
-                dos.writeInt(x);
-                if (x == 0) {
-                    System.out.println("Fermeture de la connexion..");
-                    break;
-                }
 
-                int nb = dis.readInt(); // lit le résultat
-                System.out.println("Résultat reçu du serveur : " + nb);
-            }
-            //Dernière étape
+            BufferedOutputStream bos = new BufferedOutputStream(clientSocket.getOutputStream());
+            BufferedInputStream bis = new BufferedInputStream(clientSocket.getInputStream());
+            Scanner scanner = new Scanner(System.in);
+            PrintWriter pw = new PrintWriter(bos, true);
+            BufferedReader br = new BufferedReader(new InputStreamReader(bis));
+
+            System.out.print("Entrez un entier : ");
+            String op1 = scanner.nextLine();
+            System.out.print("Entrez une opération : ");
+            String operateur = scanner.nextLine();
+            System.out.print("Entrez le 2ème entier : ");
+            String op2 = scanner.nextLine();
+
+            String operation = op1 + " " + operateur + " " + op2;
+            pw.println(operation);
+
+            String resultat = br.readLine();
+            System.out.println("Résultat reçu du serveur : " + resultat);
+
+            bis.close();
+            bos.close();
             scanner.close();
-            dis.close();
-            dos.close();
             clientSocket.close();
             System.out.println("Connexion terminée");
 
         } catch (IOException e) {
             System.out.println("Erreur client : " + e.getMessage());
-
-
         }
     }
 }

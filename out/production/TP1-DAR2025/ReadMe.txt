@@ -24,4 +24,14 @@ les nombres negative et avec zero
 donc on utilise la methode DataInputStream et DataOutputStream pour manipuler les entiers negatives
 ////partie 2 : implementation d'un saisie successive des entiers sans la fermeture du connexion
 on utilise un boucle while:
-// resultat :
+// resultat affiche par le client :
+Je suis un client pas encore connecté...
+Je suis un client connecté
+Entrez un entier (tapez 0 pour quitter) : 17
+Résultat reçu du serveur : 119
+Entrez un entier (tapez 0 pour quitter) : -17
+Résultat reçu du serveur : -119
+Entrez un entier (tapez 0 pour quitter) : 0
+Fermeture de la connexion..
+Connexion terminée
+15 + abc

@@ -34,3 +34,4 @@ Résultat reçu du serveur : -119
 Entrez un entier (tapez 0 pour quitter) : 0
 Fermeture de la connexion..
 Connexion terminée
+15 + abc
