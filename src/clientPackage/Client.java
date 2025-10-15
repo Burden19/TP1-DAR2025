@@ -13,7 +13,6 @@ public class Client {
 
         try {
             System.out.println("Je suis un client pas encore connecté...");
-
             Socket clientSocket = new Socket(HOST, PORT);
             System.out.println("Je suis un client connecté");
 

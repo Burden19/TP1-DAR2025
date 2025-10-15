@@ -19,12 +19,10 @@ public class Server {
 
             Operation operation = (Operation) ois.readObject();
 
-            // Validate the operation
             String error = operation.validate();
             if (error != null) {
                 operation.setErrorMessage(error);
             } else {
-                // Perform the calculation directly in the server
                 switch (operation.getOperator()) {
                     case "+":
                         operation.setResultat(operation.getOperand1() + operation.getOperand2());
@@ -47,7 +45,6 @@ public class Server {
                         break;
                 }
             }
-
             oos.writeObject(operation);
 
             ois.close();

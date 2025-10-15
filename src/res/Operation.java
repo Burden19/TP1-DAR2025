@@ -16,7 +16,6 @@ public class Operation implements Serializable {
         this.operand2 = operand2;
         this.errorMessage = null;
     }
-
     public String validate() {
         if (operator == null || operator.trim().isEmpty()) {
             return "L'opérateur ne peut pas être vide";
