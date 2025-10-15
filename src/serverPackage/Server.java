@@ -21,14 +21,13 @@ public class Server {
             String messageResultat;
 
             if (parts.length != 3) {
-                messageResultat = "Invalid input format";
+                messageResultat = "Format entree invalide";
             } else {
                 try {
                     double op1 = Double.parseDouble(parts[0]);
                     String operateur = parts[1];
                     double op2 = Double.parseDouble(parts[2]);
                     double resultat;
-
                     switch (operateur) {
                         case "+":
                             resultat = op1 + op2;
