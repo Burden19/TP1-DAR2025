@@ -35,3 +35,12 @@ Entrez un entier (tapez 0 pour quitter) : 0
 Fermeture de la connexion..
 Connexion terminée
 15 + abc
+
+
+//activite 2-1
+en utilsant la methode BufferedInputStream et BufferedOutputStream le client envoit l'operation comme une Objet
+de type String(pas comme dans l'activite 1-2 ou il l'envoi comme une octet
+on a implimente une verification de syntax de l'opertion (pas d'erreurs)
+
+
+ // activite 2-2

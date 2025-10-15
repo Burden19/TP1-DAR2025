@@ -1,4 +1,7 @@
 package clientPackage;
+
+import res.Operation;
+
 import java.io.*;
 import java.net.*;
 import java.util.Scanner;
@@ -14,32 +17,38 @@ public class Client {
             Socket clientSocket = new Socket(HOST, PORT);
             System.out.println("Je suis un client connecté");
 
-            BufferedOutputStream bos = new BufferedOutputStream(clientSocket.getOutputStream());
-            BufferedInputStream bis = new BufferedInputStream(clientSocket.getInputStream());
+            ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());
+            ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
             Scanner scanner = new Scanner(System.in);
-            PrintWriter pw = new PrintWriter(bos, true);
-            BufferedReader br = new BufferedReader(new InputStreamReader(bis));
 
             System.out.print("Entrez un entier : ");
-            String op1 = scanner.nextLine();
+            String op1Str = scanner.nextLine();
             System.out.print("Entrez une opération : ");
             String operateur = scanner.nextLine();
             System.out.print("Entrez le 2ème entier : ");
-            String op2 = scanner.nextLine();
+            String op2Str = scanner.nextLine();
 
-            String operation = op1 + " " + operateur + " " + op2;
-            pw.println(operation);
+            double op1 = Double.parseDouble(op1Str);
+            double op2 = Double.parseDouble(op2Str);
 
-            String resultat = br.readLine();
-            System.out.println("Résultat reçu du serveur : " + resultat);
+            Operation operation = new Operation(op1, operateur, op2);
+            oos.writeObject(operation);
 
-            bis.close();
-            bos.close();
+            Operation response = (Operation) ois.readObject();
+
+            if (response.getErrorMessage() != null) {
+                System.out.println("Erreur : " + response.getErrorMessage());
+            } else {
+                System.out.println("Résultat reçu du serveur : " + response.getResultat());
+            }
+
+            ois.close();
+            oos.close();
             scanner.close();
             clientSocket.close();
             System.out.println("Connexion terminée");
 
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             System.out.println("Erreur client : " + e.getMessage());
         }
     }
