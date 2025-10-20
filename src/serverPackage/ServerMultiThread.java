@@ -14,7 +14,7 @@ public class ServerMultiThread {
                 Socket clientSocket = serverSocket.accept();
                 clientCount++;
                 System.out.println("Un nouveau client numero #" + clientCount+" est connecte");
-                new Thread(new ClientHandler(clientSocket, clientCount)).start();
+                new Thread(new ClientProcess(clientSocket, clientCount)).start();
             }
 
         } catch (IOException e) {
@@ -23,11 +23,11 @@ public class ServerMultiThread {
     }
 }
 
-class ClientHandler implements Runnable {
+class ClientProcess implements Runnable {
     private Socket socket;
     private int clientId;
 
-    public ClientHandler(Socket socket, int clientId) {
+    public ClientProcess(Socket socket, int clientId) {
         this.socket = socket;
         this.clientId = clientId;
     }
