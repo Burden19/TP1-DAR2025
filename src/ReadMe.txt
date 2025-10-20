@@ -47,3 +47,5 @@ on a implimente une verification de syntax de l'opertion (pas d'erreurs)
 dans cette activitee on utlise les methode ObjectInputStream et ObjectOutputStream pour que le client envoi
 l'operation comme un objet du classe Operation et le serveur fait la calculation selon les argument
 apres fair la validation du syntax.
+
+// activite 3-1
