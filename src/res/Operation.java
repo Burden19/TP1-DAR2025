@@ -3,7 +3,6 @@ package res;
 import java.io.Serializable;
 
 public class Operation implements Serializable {
-
     private double operand1;
     private String operator;
     private double operand2;
@@ -16,6 +15,7 @@ public class Operation implements Serializable {
         this.operand2 = operand2;
         this.errorMessage = null;
     }
+
     public String validate() {
         if (operator == null || operator.trim().isEmpty()) {
             return "L'opérateur ne peut pas être vide";
@@ -32,35 +32,59 @@ public class Operation implements Serializable {
         return null;
     }
 
+    public void calcule() {
+        String error = validate();
+        if (error != null) {
+            setErrorMessage(error);
+            return;
+        }
+
+        switch (operator) {
+            case "+":
+                resultat = operand1 + operand2;
+                break;
+            case "-":
+                resultat = operand1 - operand2;
+                break;
+            case "*":
+                resultat = operand1 * operand2;
+                break;
+            case "/":
+                if (operand2 == 0) {
+                    setErrorMessage("Division par zéro");
+                } else {
+                    resultat = operand1 / operand2;
+                }
+                break;
+        }
+    }
+
     // Getters and Setters
     public double getOperand1() {
         return operand1;
     }
+
     public void setOperand1(double operand1) {
         this.operand1 = operand1;
     }
+
     public String getOperator() {
         return operator;
     }
+
     public void setOperator(String operator) {
         this.operator = operator;
     }
+
     public double getOperand2() {
         return operand2;
     }
+
     public void setOperand2(double operand2) {
         this.operand2 = operand2;
     }
-    public double getResultat() {
-        return resultat;
-    }
-    public void setResultat(double resultat) {
-        this.resultat = resultat;
-    }
-    public String getErrorMessage() {
-        return errorMessage;
-    }
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
-    }
+    public double getResultat() { return resultat; }
+    public void setResultat(double resultat) { this.resultat = resultat; }
+    public String getErrorMessage() { return errorMessage; }
+    public void setErrorMessage(String errorMessage) { this.errorMessage = errorMessage; }
 }

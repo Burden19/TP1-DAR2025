@@ -2,18 +2,20 @@ package serverPackage;
 import java.io.*;
 import java.net.*;
 
+import res.Operation;
+
 public class ServerMultiThread {
     public static void main(String[] args) {
         int port = 1234;
         int clientCount = 0;
 
         try (ServerSocket serverSocket = new ServerSocket(port)) {
-            System.out.println("le serveur est connecte sur le port: " + port);
+            System.out.println("Le serveur est connecté sur le port: " + port);
 
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 clientCount++;
-                System.out.println("Un nouveau client numero #" + clientCount+" est connecte");
+                System.out.println("Nouveau client #" + clientCount + " connecté.");
                 new Thread(new ClientProcess(clientSocket, clientCount)).start();
             }
 
@@ -39,22 +41,25 @@ class ClientProcess implements Runnable {
             String clientIP = remoteAddress.getAddress().getHostAddress();
             int clientPort = remoteAddress.getPort();
 
-            System.out.println("Client n°" + clientId + " est connecte avec l'IP: " + clientIP + " sur le port: " + clientPort);
+            System.out.println("Client #" + clientId + " connecté avec l'IP: " + clientIP + " sur le port: " + clientPort);
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+            ObjectOutputStream out  = new ObjectOutputStream(socket.getOutputStream());
+            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+            out.writeObject("Votre ordre de communication est : #" + clientId);
+            out.flush();
 
-            out.println("Votre ordre de communication est : #" + clientId);
+            while (true) {
+                Operation operation = (Operation) in.readObject();
+                if (operation == null) break;
 
-            String message;
-            while ((message = in.readLine()) != null) {
-                System.out.println("Client #" + clientId + " a dit : " + message);
-                out.println(" Le Server a reçoit: " + message);
+                operation.calcule();
+                out.writeObject(operation);
+                out.flush();
             }
 
             socket.close();
-        } catch (IOException e) {
-            System.out.println("Client #" + clientId + " est deconnecté.");
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Client #" + clientId + " déconnecté.");
         }
     }
 }

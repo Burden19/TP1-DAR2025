@@ -2,28 +2,44 @@ package clientPackage;
 import java.io.*;
 import java.net.*;
 
+import res.Operation;
+
 public class Client2 {
     public static void main(String[] args) {
         try (
                 Socket socket = new Socket("localhost", 1234);
-                BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-                PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))
+                ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+                ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+                BufferedReader consoleInput = new BufferedReader(new InputStreamReader(System.in))
         ) {
-            String orderMessage = in.readLine();
-            if (orderMessage != null) {
-                System.out.println(orderMessage);
+            String orderMessage = (String) in.readObject();
+            System.out.println(orderMessage);
+
+            boolean continueOperations = true;
+            while (continueOperations) {
+                System.out.print("Entrez le premier opérande: ");
+                double operand1 = Double.parseDouble(consoleInput.readLine());
+
+                System.out.print("Entrez l'opérateur (+, -, *, /): ");
+                String operator = consoleInput.readLine().trim();
+
+                System.out.print("Entrez le deuxième opérande: ");
+                double operand2 = Double.parseDouble(consoleInput.readLine());
+
+                Operation operation = new Operation(operand1, operator, operand2);
+                out.writeObject(operation);
+                out.flush();
+
+                Operation resultOperation = (Operation) in.readObject();
+
+                if (resultOperation.getErrorMessage() != null) {
+                    System.out.println("Erreur: " + resultOperation.getErrorMessage());
+                } else {
+                    System.out.println("Résultat: " + resultOperation.getResultat());
+                }
             }
 
-            System.out.println("Client est connecté, tapez un message:");
-
-            String message;
-            while ((message = input.readLine()) != null) {
-                out.println(message);
-                System.out.println(in.readLine());
-            }
-
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
