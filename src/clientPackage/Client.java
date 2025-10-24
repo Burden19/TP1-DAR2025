@@ -1,7 +1,6 @@
 package clientPackage;
 import java.io.*;
 import java.net.*;
-
 import res.Operation;
 
 public class Client {
@@ -17,25 +16,45 @@ public class Client {
 
             boolean continueOperations = true;
             while (continueOperations) {
-                System.out.print("Entrez le premier opérande: ");
-                double operand1 = Double.parseDouble(consoleInput.readLine());
+                System.out.print("Entrez le premier opérande(tappez exit pour quitter): ");
+                String operand1Str = consoleInput.readLine();
+                if (operand1Str.equalsIgnoreCase("exit") || operand1Str.equalsIgnoreCase("quitter")) {
+                    continueOperations = false;
+                    break;
+                }
 
-                System.out.print("Entrez l'opérateur (+, -, *, /): ");
+                System.out.print("Entrez l'opérateur (+, -, *, /)(tappez exit pour quitter): ");
                 String operator = consoleInput.readLine().trim();
+                if (operator.equalsIgnoreCase("exit") || operator.equalsIgnoreCase("quitter")) {
+                    continueOperations = false;
+                    break;
+                }
 
-                System.out.print("Entrez le deuxième opérande: ");
-                double operand2 = Double.parseDouble(consoleInput.readLine());
+                System.out.print("Entrez le deuxième opérande(tappez exit pour quitter): ");
+                String operand2Str = consoleInput.readLine();
+                if (operand2Str.equalsIgnoreCase("exit") || operand2Str.equalsIgnoreCase("quitter")) {
+                    continueOperations = false;
+                    break;
+                }
 
-                Operation operation = new Operation(operand1, operator, operand2);
-                out.writeObject(operation);
-                out.flush();
+                try {
+                    double operand1 = Double.parseDouble(operand1Str);
+                    double operand2 = Double.parseDouble(operand2Str);
 
-                Operation resultOperation = (Operation) in.readObject();
+                    Operation operation = new Operation(operand1, operator, operand2);
+                    out.writeObject(operation);
+                    out.flush();
 
-                if (resultOperation.getErrorMessage() != null) {
-                    System.out.println("Erreur: " + resultOperation.getErrorMessage());
-                } else {
-                    System.out.println("Résultat: " + resultOperation.getResultat());
+                    Operation resultOperation = (Operation) in.readObject();
+
+                    if (resultOperation.getErrorMessage() != null) {
+                        System.out.println("Erreur: " + resultOperation.getErrorMessage());
+                    } else {
+                        System.out.println("Résultat: " + resultOperation.getResultat());
+                    }
+
+                } catch (NumberFormatException e) {
+                    System.out.println("Erreur: Veuillez entrer des nombres valides.");
                 }
             }
 

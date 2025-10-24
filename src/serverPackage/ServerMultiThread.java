@@ -5,6 +5,8 @@ import java.net.*;
 import res.Operation;
 
 public class ServerMultiThread {
+    public static int counter = 0;
+
     public static void main(String[] args) {
         int port = 1234;
         int clientCount = 0;
@@ -55,6 +57,10 @@ class ClientProcess implements Runnable {
                 operation.calcule();
                 out.writeObject(operation);
                 out.flush();
+                synchronized (ServerMultiThread.class) {
+                    ServerMultiThread.counter++;
+                    System.out.println("Nombre total des operations: " + ServerMultiThread.counter);
+                }
             }
 
             socket.close();
